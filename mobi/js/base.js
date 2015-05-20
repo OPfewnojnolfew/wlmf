@@ -1,43 +1,44 @@
 //获取加载进度
 (function(wlmf) {
     var images = {
-            'home': 6
+            'home': 6,
+            'other': ['test.jpg', 'test1.jpg']
         },
-        loadImages = function(callback) {
+        preloadImages = function(callback) {
             var count = 0,
                 keys = [],
-                item;
+                imgUrls = [].concat(images.other),
+                item,
+                i = 0;
             for (item in images) {
-                if (images.hasOwnProperty(item) && images[item]) {
-                    keys.push(item);
-                    count += images[item];
+                if (images.hasOwnProperty(item) && images[item] && item !== 'other') {
+                    i = 1;
+                    while (images[item] >= i) {
+                        imgUrls.push(item + '-' + i);
+                        i++;
+                    }
                 }
             }
-            var j = 1,
-                img,
+            var length = imgUrls.length,
                 loadedCount = 0,
                 afterLoad = function() {
-                    callback(++loadedCount, count);
+                    callback(++loadedCount, length);
                 };
-            for (var i = 0, len = keys.length; i < len; i++) {
-                j = 1;
-                while (images[keys[i]] >= j) {
-                    img = new Image();
-                    img.src = images[keys[i] + '-' + j];
-                    if (img.complete) {
-                        afterLoad();
-                    } else {
-                        img.onload = afterLoad;
-                        img.onerror = afterLoad;
-                    }
-                    j++;
+            for (i = 0; i < length; i++) {
+                img = new Image();
+                img.src = imgUrls[i];
+                if (img.complete) {
+                    afterLoad();
+                } else {
+                    img.onload = afterLoad;
+                    img.onerror = afterLoad;
                 }
             }
         };
-    wlmf.loadImages = loadImages;
+    wlmf.preloadImages = preloadImages;
 })(window.wlmf || (window.wlmf = {}));
 Zepto(function($) {
-    wlmf.loadImages(function(loadedCount, count) {
+    wlmf.preloadImages(function(loadedCount, count) {
         var percent = (loadedCount / count).toFixed(2);
         percent > 1 && (percent = 1);
         percent = percent * 100 + '%';
