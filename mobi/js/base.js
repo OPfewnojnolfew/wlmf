@@ -1,40 +1,49 @@
+//获取加载进度
 (function(wlmf) {
     var images = {
             'home': 6
         },
         loadImages = function(callback) {
             var count = 0,
-                imgNum = 0,
                 keys = [],
                 item;
             for (item in images) {
-                if (images.hasOwnproperty(item)) {
+                if (images.hasOwnProperty(item) && images[item]) {
                     keys.push(item);
-                    imgNum += images[item];
+                    count += images[item];
                 }
-
             }
+            var j = 1,
+                img,
+                loadedCount = 0,
+                afterLoad = function() {
+                    callback(++loadedCount, count);
+                };
             for (var i = 0, len = keys.length; i < len; i++) {
-                var j = 1,
-                    img;
-                while (images[keys[i]] <= j) {
+                j = 1;
+                while (images[keys[i]] >= j) {
                     img = new Image();
-                    img.onload = function() {
-                        callback(++count, imgNum);
-                    };
-                }
-            }
-            for (src in sources) {
-                images[src] = new Image();
-                images[src].onload = function() {
-                    if (++count >= imgNum) {
-                        callback(images);
+                    img.src = images[keys[i] + '-' + j];
+                    if (img.complete) {
+                        afterLoad();
+                    } else {
+                        img.onload = afterLoad;
+                        img.onerror = afterLoad;
                     }
+                    j++;
                 }
-                images[src].src = sources[src];
             }
         };
+    wlmf.loadImages = loadImages;
 })(window.wlmf || (window.wlmf = {}));
+Zepto(function($) {
+    wlmf.loadImages(function(loadedCount, count) {
+        var percent = (loadedCount / count).toFixed(2);
+        percent > 1 && (percent = 1);
+        percent = percent * 100 + '%';
+        $('.icon-home-3').html(percent);
+    });
+});
 
 // /*******************************
 //  * @Copyright:万人马拉松

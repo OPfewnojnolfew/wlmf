@@ -295,6 +295,10 @@ button:disabled {
     right: 47px;
     text-align: center;
     color: #FFF;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: keep-all;
+    word-wrap: break-word;
 }
 
 .icon-home-1 {
