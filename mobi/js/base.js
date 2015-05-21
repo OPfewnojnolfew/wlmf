@@ -2,6 +2,7 @@
 (function(wlmf) {
     var images = {
             'home': 6,
+            'bg': 2,
             'other': ['test.jpg', 'test1.jpg']
         },
         preloadImages = function(callback) {

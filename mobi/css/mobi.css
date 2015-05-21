@@ -20,7 +20,7 @@ body {
     font-family: arial;
     -webkit-text-size-adjust: none;
     line-height: 1.62;
-    background: #000 url(../img/bg-body.jpg) center top fixed repeat-y;
+    background: #000 url(../img/bg-1.jpg) center top fixed repeat-y;
     background-size: 100%;
 }
 
@@ -301,6 +301,10 @@ button:disabled {
     word-wrap: break-word;
 }
 
+#home {
+    /*display: none;*/
+}
+
 .icon-home-1 {
     width: 189px;
     margin: 0 auto;
@@ -404,19 +408,82 @@ button:disabled {
     font-size: 32px;
 }
 
-footer {
-    position: fixed;
-    left: 0;
-    bottom: 70px;
+.icon-home-4 {
+    margin-top: 100px;
     width: 100%;
     padding: 15px 0;
     color: #FFF;
     text-align: center;
 }
 
-footer p:first-child {
+.icon-home-4 p:first-child {
     background: url(../img/home-foot-1.png) center no-repeat;
     background-size: 95px;
+}
+
+#musicrender {
+    background-size: 100%;
+}
+
+.musicrender-1 {
+    margin-top: 150px;
+    text-align: center;
+    color: #FFF;
+    line-height: 1.2;
+    transform: skew(10deg, -10deg);
+    -webkit-transform: skew(10deg, -10deg);
+    /* Safari and Chrome */
+}
+
+.musicrender-1 p:first-child {
+    font-size: 40px;
+}
+
+.musicrender-1 p:last-child {
+    margin-left: -73px;
+    font-size: 66px;
+    color: #f06e00
+}
+
+.musicrender-2 {
+    margin-top: 100px;
+}
+
+.musicrender-2 ul {
+    border: 1px solid #c7c6c5;
+    border-left: 0;
+    border-right: 0;
+    overflow: hidden;
+    font-size: 17px;
+    color: #FFF;
+    width: 315px;
+    padding:15px 5px;
+    text-align:center;
+    margin: 0 auto;
+}
+
+.musicrender-2 ul li {
+    padding:0 5px;
+    float: left;
+}
+.musicrender-2 ul li.depart,
+.musicrender-2 ul li span{
+    font-size: 27px;
+}
+.musicrender-3{
+    margin-top: 100px;
+    text-align: center;
+
+}
+.musicrender-3 a{
+    float: left;
+    width: 105px;
+    line-height: 39px;
+    background: url(../img/musicrender-1.png) center center no-repeat;
+    background-size: 105px;
+    text-align: center;
+    font-size: 16px;
+    color: #000;
 }
 /*****wlmf end************/
 
