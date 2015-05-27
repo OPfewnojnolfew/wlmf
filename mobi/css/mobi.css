@@ -445,7 +445,7 @@ button:disabled {
     overflow: hidden;
     font-size: 17px;
     color: #FFF;
-    padding: 15px 5px;
+    padding: 43px 5px 0 5px;
     text-align: center;
 }
 
@@ -459,7 +459,7 @@ button:disabled {
 }
 
 .musicrender-3 {
-    margin-top: 100px;
+    margin-top: 30px;
     text-align: center;
 }
 

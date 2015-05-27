@@ -38,6 +38,64 @@
         };
     wlmf.preloadImages = preloadImages;
 })(window.wlmf || (window.wlmf = {}));
+
+//时间倒计时 ,支持到天
+(function(wlmf) {
+    var options = {
+        elapsedTime: 0,
+        maxTime: 30 * 24 * 60 * 60,
+        isDown: true, //是否倒计时
+        minTime: 0
+    };
+    var Timer = function(option) {
+        this.options = $.extend(options, option);
+        this.elapsedTime = this.options.elapsedTime;
+        this.isplay = false;
+    };
+    Timer.prototype = {
+        _getTime: function() {
+            return {
+                d: Math.floor(this.elapsedTime / (24 * 60 * 60)),
+                h: Math.floor(this.elapsedTime % (24 * 60 * 60) / (60 * 60)),
+                m: Math.floor(this.elapsedTime % (24 * 60 * 60) % (60 * 60) / 60),
+                s: this.elapsedTime % (24 * 60 * 60) % (60 * 60) % 60 % 60
+            };
+        },
+        _moveTime: function() {
+            var self = this;
+            if (this.elapsedTime >= this.options.maxTime && !this.options.isDown || this.elapsedTime <= this.options.minTime && this.options.isDown || !this.isplay) {
+                return;
+            }
+            this.options.isDown ? this.elapsedTime -= 1 : this.elapsedTime += 1;
+            this.options.afterStep && this.options.afterStep(this._getTime(), this.elapsedTime);
+            this._timer = setTimeout(function() {
+                self._moveTime();
+            }, 1000);
+        },
+        start: function() {
+            if (this.isplay) {
+                return this;
+            }
+            var self = this;
+            this.isplay = true;
+            this._timer = setTimeout(function() {
+                self._moveTime();
+            }, 1000);
+            return this;
+        },
+        restart: function() {
+            clearTimeout(this._timer);
+            this.elapsedTime = this.options.elapsedTime;
+            this.start();
+            return this;
+        },
+        pause: function() {
+            this.isplay && (this.isplay = false);
+            return this;
+        }
+    };
+    wlmf.Timer = Timer;
+})(window.wlmf || (window.wlmf = {}));
 Zepto(function($) {
     wlmf.preloadImages(function(loadedCount, count) {
         var percent = (loadedCount / count).toFixed(2);
@@ -45,6 +103,16 @@ Zepto(function($) {
         percent = percent * 100 + '%';
         $('.icon-home-3').html(percent);
     });
+    var $musicrender2span = $('.musicrender-2 span');
+    var timer = new wlmf.Timer({
+        elapsedTime: 3 * 24 * 60 * 60,
+        afterStep: function(t) {
+            $musicrender2span.eq(0).text(t.d);
+            $musicrender2span.eq(1).text(t.h);
+            $musicrender2span.eq(2).text(t.m);
+            $musicrender2span.eq(3).text(t.s);
+        }
+    }).start();
 });
 
 // /*******************************
